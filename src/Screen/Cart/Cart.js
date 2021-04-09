@@ -6,8 +6,9 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import Nodata from "../../Component/Nodata";
+import { connect } from "react-redux";
 
-export default class Cart extends Component {
+class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -108,9 +109,10 @@ export default class Cart extends Component {
 
   quantityHandler = (action, index) => {
 
-    const { data = [] } = (this.props.route && this.props.route.params) || [];
+    const { cart_Array = [] } = this.props;
 
-    const newItems = [...data];
+   
+    const newItems = [...cart_Array];
 
     let currentQty = newItems[index]['quantity'];
 
@@ -121,22 +123,21 @@ export default class Cart extends Component {
     	newItems[index]['quantity'] = currentQty > 1 ? currentQty - 1 : 1;
     }
 
-    this.setState({ data: newItems });
+    this.setState({ cart_Array: newItems });
 
   };
 
   subtotalPrice = () => {
-		const { data = [] } = (this.props.route && this.props.route.params) || [];
-		if(data){
-			return data.reduce((sum, item) => sum + ( item.quantity * item.reducedPrice ), 0 );
+		const { cart_Array = [] } = this.props;
+		if(cart_Array){
+			return cart_Array.reduce((sum, item) => sum + ( item.quantity * item.reducedPrice ), 0 );
 		}
 		return 0;
 	}
 
   render() {
-    const { data = [] } = (this.props.route && this.props.route.params) || [];
+    const { cart_Array = [] } = this.props;
 
-  
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -159,11 +160,11 @@ export default class Cart extends Component {
           <AntDesign name="hearto" size={25} />
         </View>
 
-        {data.length > 0 ? (
+        {cart_Array.length > 0 ? (
           <View style={{ flex: 1, backgroundColor: "#f0f4f7" }}>
             <FlatList
               keyExtractor={(item) => item.id.toString()}
-              data={data}
+              data={cart_Array}
               renderItem={this.renderItem}
             />
           </View>
@@ -209,3 +210,11 @@ export default class Cart extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    cart_Array: state.home.cart_array,
+  };
+};
+
+export default connect(mapStateToProps)(Cart);

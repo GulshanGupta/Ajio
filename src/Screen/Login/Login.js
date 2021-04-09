@@ -10,8 +10,8 @@ import {
 import Formbutton from "../../Component/Formbutton";
 import Inputtext from "../../Component/Inputtext";
 import fontFamily from "../../styles/fontFamily";
-import * as Font from 'expo-font';
-import { useFonts } from 'expo-font';
+// import * as Font from 'expo-font';
+// import { useFonts } from 'expo-font';
 
 
 
@@ -19,7 +19,7 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      placeholderEmail:"Enter Mobile Number/Email"
+      placeholderEmail:"Enter Mobile Number"
     };
   }
 

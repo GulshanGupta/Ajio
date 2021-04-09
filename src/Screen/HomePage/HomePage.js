@@ -19,8 +19,13 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Nodata from "../../Component/Nodata";
+import store from "../../redux/store";
+import types from "../../redux/types";
+import { connect } from "react-redux";
 
-export default class HomePage extends Component {
+const {dispatch}=store;
+
+class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +39,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 2,
@@ -45,7 +50,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 3,
@@ -56,7 +61,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 4,
@@ -67,7 +72,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 5,
@@ -78,7 +83,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 6,
@@ -89,7 +94,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 7,
@@ -100,7 +105,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 8,
@@ -111,7 +116,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 9,
@@ -122,7 +127,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 10,
@@ -133,7 +138,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 11,
@@ -144,7 +149,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 12,
@@ -155,7 +160,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 13,
@@ -166,7 +171,7 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
         {
           id: 14,
@@ -177,68 +182,63 @@ export default class HomePage extends Component {
           originalPrice: "Rs 2599",
           reducedPrice: 650,
           discount: "75%",
-          quantity:1
+          quantity: 1,
         },
       ],
-      cartArray: [],
     };
   }
 
 
+
   _onPress = (item) => {
-    const {cartArray} = this.state ;
-    this.props.navigation.navigate("Details", {
-      data: item ,
-      cartArray:cartArray
-      // myFun: this._onAddToCart
+       
+    const { productsArray } = this.state;
+   
+    dispatch({
+      type: types.PRODUCT_DETAILS,
+      payload: { item },
     });
+    
+    this.props.navigation.navigate("Details", {array:productsArray})
+      // data: item,
+      // cartArray: cartArray,
+      // myFun: this._onAddToCart
+
   };
 
   _onAddToCart = (item) => {
-    const { cartArray, productsArray } = this.state;
+
+    const { productsArray } = this.state;
 
     let blankcartArray = [...productsArray];
 
-    if (!cartArray.includes(blankcartArray[item.id - 1 ])) {
-      cartArray.push(blankcartArray[item.id - 1]);
-      
-    } else {
-      console.log("entered else ");
-      alert("Item already in Cart")
-
-    }
-
-    this.setState({
-      cartArray: cartArray,
+    dispatch({
+      type: types.ADD_TO_CART,
+      payload: { blankcartArray, item },
     });
-
-    
-    
-  }
+  };
 
   _onclicktocart = () => {
+    const { productsArray } = this.state;
+    this.props.navigation.navigate( "Cart" );
+  };
 
-    const { cartArray, productsArray } = this.state;
-    this.props.navigation.navigate("Cart", { data: cartArray });
+  // componentDidMount() {
+  //   this.focusListener = this.props.navigation.addListener("focus", () => {
+  //     if (this.props.route.params) {
+  //       let itemsadd = this.props.route.params.data;
+  //       this._onAddToCart(itemsadd);
 
-  }
+  //       this.props.route.params = null;
+  //     }
+  //   });
+  // }
 
-  componentDidMount() {
-    this.focusListener = this.props.navigation.addListener("focus", () => {
-      if (this.props.route.params) {
-        let itemsadd = this.props.route.params.data;
-        this._onAddToCart(itemsadd);
-
-        this.props.route.params = null;
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    if (this.focusListener) {
-      this.focusListener();
-    }
-  }
+  // componentWillUnmount() {
+  //   if (this.focusListener) {
+  //     this.focusListener();
+  //   }
+  // }
 
   renderItem = ({ item }) => {
     return (
@@ -331,7 +331,9 @@ export default class HomePage extends Component {
   };
 
   render() {
-    const { productsArray, cartArray } = this.state;
+    const { productsArray } = this.state;
+    const { cart_Array } = this.props;
+    
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -349,15 +351,15 @@ export default class HomePage extends Component {
               <AntDesign name="down" size={15} style={styles.iconSpacing} />
 
               <Text style={{ color: "red", fontWeight: "bold" }}>
-                {cartArray.length}
+                {cart_Array.length}
               </Text>
-              
+
               <TouchableOpacity onPress={this._onclicktocart}>
-              <AntDesign
-                name="shoppingcart"
-                size={25}
-                style={styles.iconSpacing}
-              />
+                <AntDesign
+                  name="shoppingcart"
+                  size={25}
+                  style={styles.iconSpacing}
+                />
               </TouchableOpacity>
             </View>
 
@@ -392,6 +394,14 @@ export default class HomePage extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    cart_Array: state.home.cart_array,
+  };
+};
+
+export default connect(mapStateToProps)(HomePage);
 
 const styles = StyleSheet.create({
   forlogoHeading: {

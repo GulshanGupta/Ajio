@@ -2,15 +2,23 @@ import React, { Fragment } from "react";
 import { Button, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Login, Signup, LandingPage, MainPage } from "../Screen";
+import {
+  Login,
+  Signup,
+  LandingPage,
+  MainPage,
+  OtpVerification,
+  OtpConfirmation,
+  LoginMedi,
+} from "../Screen";
 import navigationStrings from "../constants/navigationStrings";
 import TabRoutes from "./TabRoutes";
 import Details from "../Screen/Details/Details";
-import Confirmedorder from "../Screen/ConfirmedOrder/Confirmedorder";
+import Confirmedorder from "../Screen/Confirmedorder/Confirmedorder";
 
 const Stack = createStackNavigator();
 
-function AuthStack(Stack) {
+function AuthStack() {
   return (
     <Fragment>
       <Stack.Screen
@@ -30,6 +38,24 @@ function AuthStack(Stack) {
       />
 
       <Stack.Screen
+        name={navigationStrings.OTP_VERIFICATION}
+        component={OtpVerification}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name={navigationStrings.OTP_CONFIRMATION}
+        component={OtpConfirmation}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name={navigationStrings.LOGIN_MEDI}
+        component={LoginMedi}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
         name={navigationStrings.SIGNUP}
         options={{
           headerShown: false,
@@ -37,29 +63,15 @@ function AuthStack(Stack) {
         component={Signup}
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name={navigationStrings.TAB_ROUTES}
         options={{
           headerShown: false,
         }}
         component={TabRoutes}
-      />
+      /> */}
 
-      <Stack.Screen
-        name={navigationStrings.CONFIRMED_ORDER}
-        options={{
-          headerShown: false,
-        }}
-        component={Confirmedorder}
-      />
-
-      <Stack.Screen
-        name="Details"
-        options={{
-          headerShown: false,
-        }}
-        component={Details}
-      />
+      
     </Fragment>
   );
 }

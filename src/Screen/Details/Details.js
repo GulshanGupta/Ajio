@@ -1,36 +1,49 @@
 import React, { Component } from "react";
-import { View, Text, Image, StyleSheet , SafeAreaView } from "react-native";
+import { View, Text, Image, StyleSheet, SafeAreaView } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { connect } from "react-redux";
+import store from "../../redux/store";
+import types from "../../redux/types";
 
-export default class Details extends Component {
+const {dispatch}=store;
+
+class Details extends Component {
   constructor(props) {
     super(props);
   }
 
-
   _onclicktocart = () => {
+    this.props.navigation.navigate("Cart");
+  };
 
-    const {cartArray} = this.props.route.params;
-    this.props.navigation.navigate("Cart", { data: cartArray  });
+  // _onAddToCart = (item) => {
+  //   const { array } = this.props.route.params;
 
-  }
-  // addCart = () =>{ 
+  //   let blankcartArray = [...array];
+
+  //   dispatch({
+  //     type: types.ADD_TO_CART,
+  //     payload: { blankcartArray, item },
+  //   });
+  // };
+
+  // addCart = () =>{
   //   const { data, myFun } = this.props.route.params;
   //   myFun(data)
   // }
 
   render() {
-    const { data, myFun , cartArray} = this.props.route.params;
+    // const { data, myFun , cartArray} = this.props.route.params;
     // const sliderWidth = 10 ;
     // const itemWidth = 10 ;
-  
 
-    
+    const { data , cart_Array = [] } = this.props;
+
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View
@@ -43,12 +56,14 @@ export default class Details extends Component {
           }}
         >
           <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")}>
-            <AntDesign
-              name="arrowleft"
-              size={30}
-              style={{ marginHorizontal: 15 }}
-            />
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Home")}
+            >
+              <AntDesign
+                name="arrowleft"
+                size={30}
+                style={{ marginHorizontal: 15 }}
+              />
             </TouchableOpacity>
           </View>
           <View
@@ -65,18 +80,16 @@ export default class Details extends Component {
               style={{ marginHorizontal: 10 }}
             />
             <Text style={{ color: "red", fontWeight: "bold" }}>
-                {cartArray.length}
-              </Text>
-            
+              {cart_Array.length}
+            </Text>
+
             <TouchableOpacity onPress={this._onclicktocart}>
-            <AntDesign
-              name="shoppingcart"
-              size={25}
-              style={{ marginHorizontal: 10 }}
-            />
+              <AntDesign
+                name="shoppingcart"
+                size={25}
+                style={{ marginHorizontal: 10 }}
+              />
             </TouchableOpacity>
-            
-            
           </View>
         </View>
 
@@ -221,145 +234,147 @@ export default class Details extends Component {
               >
                 Select Size
               </Text>
-            
-            <View style={{flexDirection:'row' , justifyContent:'flex-start'}}>
-            <View
-              style={{
-                marginVertical: 10,
-                marginHorizontal: 3,
-                width: 40,
-                height: 40,
-                borderTopWidth:0.5,
-                borderTopColor:'#f0f0f0',
-                borderLeftWidth:0.5,
-                borderLeftColor:'#f0f0f0' ,
-                borderBottomWidth:2,
-                borderBottomColor:'#e3e3e3',
-                borderRightWidth:2,
-                borderRightColor:'#e3e3e3' ,
-                marginBottom: 10,
-                justifyContent:'center' ,
-                alignItems:'center',
-                borderRadius:5
-              }}
-            >
-              <Text>28</Text>
-            </View>
 
-            <View
-              style={{
-                marginVertical: 10,
-                marginHorizontal: 5,
-                width: 40,
-                height: 40,
-                borderTopWidth:0.5,
-                borderTopColor:'#f0f0f0',
-                borderLeftWidth:0.5,
-                borderLeftColor:'#f0f0f0' ,
-                borderBottomWidth:2,
-                borderBottomColor:'#e3e3e3',
-                borderRightWidth:2,
-                borderRightColor:'#e3e3e3' ,
-                marginBottom: 10,
-                justifyContent:'center' ,
-                alignItems:'center',
-                borderRadius:5
-              }}
-            >
-              <Text>30</Text>
-            </View>
+              <View
+                style={{ flexDirection: "row", justifyContent: "flex-start" }}
+              >
+                <View
+                  style={{
+                    marginVertical: 10,
+                    marginHorizontal: 3,
+                    width: 40,
+                    height: 40,
+                    borderTopWidth: 0.5,
+                    borderTopColor: "#f0f0f0",
+                    borderLeftWidth: 0.5,
+                    borderLeftColor: "#f0f0f0",
+                    borderBottomWidth: 2,
+                    borderBottomColor: "#e3e3e3",
+                    borderRightWidth: 2,
+                    borderRightColor: "#e3e3e3",
+                    marginBottom: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 5,
+                  }}
+                >
+                  <Text>28</Text>
+                </View>
 
-            <View
-              style={{
-                marginVertical: 10,
-                marginHorizontal: 5,
-                width: 40,
-                height: 40,
-                borderTopWidth:0.5,
-                borderTopColor:'#f0f0f0',
-                borderLeftWidth:0.5,
-                borderLeftColor:'#f0f0f0' ,
-                borderBottomWidth:2,
-                borderBottomColor:'#e3e3e3',
-                borderRightWidth:2,
-                borderRightColor:'#e3e3e3' ,
-                marginBottom: 10,
-                justifyContent:'center' ,
-                alignItems:'center',
-                borderRadius:5
-              }}
-            >
-              <Text>32</Text>
-            </View>
+                <View
+                  style={{
+                    marginVertical: 10,
+                    marginHorizontal: 5,
+                    width: 40,
+                    height: 40,
+                    borderTopWidth: 0.5,
+                    borderTopColor: "#f0f0f0",
+                    borderLeftWidth: 0.5,
+                    borderLeftColor: "#f0f0f0",
+                    borderBottomWidth: 2,
+                    borderBottomColor: "#e3e3e3",
+                    borderRightWidth: 2,
+                    borderRightColor: "#e3e3e3",
+                    marginBottom: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 5,
+                  }}
+                >
+                  <Text>30</Text>
+                </View>
 
-            <View
-              style={{
-                marginVertical: 10,
-                marginHorizontal: 5,
-                width: 40,
-                height: 40,
-                borderTopWidth:0.5,
-                borderTopColor:'#f0f0f0',
-                borderLeftWidth:0.5,
-                borderLeftColor:'#f0f0f0' ,
-                borderBottomWidth:2,
-                borderBottomColor:'#e3e3e3',
-                borderRightWidth:2,
-                borderRightColor:'#e3e3e3' ,
-                marginBottom: 10,
-                justifyContent:'center' ,
-                alignItems:'center',
-                borderRadius:5
-              }}
-            >
-              <Text>34</Text>
-            </View>
-            <View
-              style={{
-                marginVertical: 10,
-                marginHorizontal: 5,
-                width: 40,
-                height: 40,
-                borderTopWidth:0.5,
-                borderTopColor:'#f0f0f0',
-                borderLeftWidth:0.5,
-                borderLeftColor:'#f0f0f0' ,
-                borderBottomWidth:2,
-                borderBottomColor:'#e3e3e3',
-                borderRightWidth:2,
-                borderRightColor:'#e3e3e3' ,
-                marginBottom: 10,
-                justifyContent:'center' ,
-                alignItems:'center',
-                borderRadius:5
-              }}
-            >
-              <Text>36</Text>
-            </View>
+                <View
+                  style={{
+                    marginVertical: 10,
+                    marginHorizontal: 5,
+                    width: 40,
+                    height: 40,
+                    borderTopWidth: 0.5,
+                    borderTopColor: "#f0f0f0",
+                    borderLeftWidth: 0.5,
+                    borderLeftColor: "#f0f0f0",
+                    borderBottomWidth: 2,
+                    borderBottomColor: "#e3e3e3",
+                    borderRightWidth: 2,
+                    borderRightColor: "#e3e3e3",
+                    marginBottom: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 5,
+                  }}
+                >
+                  <Text>32</Text>
+                </View>
 
-            <View
-              style={{
-                marginVertical:10,
-                marginHorizontal: 5,
-                width: 40,
-                height: 40,
-                borderTopWidth:0.5,
-                borderTopColor:'#f0f0f0',
-                borderLeftWidth:0.5,
-                borderLeftColor:'#f0f0f0' ,
-                borderBottomWidth:2,
-                borderBottomColor:'#e3e3e3',
-                borderRightWidth:2,
-                borderRightColor:'#e3e3e3' ,
-                marginBottom: 10,
-                justifyContent:'center' ,
-                alignItems:'center',
-                borderRadius:5
-              }}
-            >
-              <Text>38</Text>
-            </View>
-            </View>
+                <View
+                  style={{
+                    marginVertical: 10,
+                    marginHorizontal: 5,
+                    width: 40,
+                    height: 40,
+                    borderTopWidth: 0.5,
+                    borderTopColor: "#f0f0f0",
+                    borderLeftWidth: 0.5,
+                    borderLeftColor: "#f0f0f0",
+                    borderBottomWidth: 2,
+                    borderBottomColor: "#e3e3e3",
+                    borderRightWidth: 2,
+                    borderRightColor: "#e3e3e3",
+                    marginBottom: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 5,
+                  }}
+                >
+                  <Text>34</Text>
+                </View>
+                <View
+                  style={{
+                    marginVertical: 10,
+                    marginHorizontal: 5,
+                    width: 40,
+                    height: 40,
+                    borderTopWidth: 0.5,
+                    borderTopColor: "#f0f0f0",
+                    borderLeftWidth: 0.5,
+                    borderLeftColor: "#f0f0f0",
+                    borderBottomWidth: 2,
+                    borderBottomColor: "#e3e3e3",
+                    borderRightWidth: 2,
+                    borderRightColor: "#e3e3e3",
+                    marginBottom: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 5,
+                  }}
+                >
+                  <Text>36</Text>
+                </View>
+
+                <View
+                  style={{
+                    marginVertical: 10,
+                    marginHorizontal: 5,
+                    width: 40,
+                    height: 40,
+                    borderTopWidth: 0.5,
+                    borderTopColor: "#f0f0f0",
+                    borderLeftWidth: 0.5,
+                    borderLeftColor: "#f0f0f0",
+                    borderBottomWidth: 2,
+                    borderBottomColor: "#e3e3e3",
+                    borderRightWidth: 2,
+                    borderRightColor: "#e3e3e3",
+                    marginBottom: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 5,
+                  }}
+                >
+                  <Text>38</Text>
+                </View>
+              </View>
             </View>
           </View>
 
@@ -404,7 +419,12 @@ export default class Details extends Component {
             <EvilIcons name="heart" size={30} />
           </View>
 
-          <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home" , {data:data})}>
+          <TouchableOpacity
+            // onPress={
+            //   // () => this.props.navigation.navigate("Home")
+            //    data => this._onAddToCart(data)
+            // }
+          >
             <View
               style={{
                 flexDirection: "row",
@@ -427,5 +447,14 @@ export default class Details extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    cart_Array: state.home.cart_array,
+    data: state.home.item,
+  };
+};
+
+export default connect(mapStateToProps)(Details);
 
 const styles = StyleSheet.create({});
