@@ -9,8 +9,13 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import store from "../../redux/store";
 import types from "../../redux/types";
+import navigationStrings from "../../constants/navigationStrings";
+import strings from "../../constants/lang";
+import colors from "../../styles/colors";
+import commonStyles from "../../styles/commonStyles";
+import styles from "./styles";
 
-const {dispatch}=store;
+const { dispatch } = store;
 
 class Details extends Component {
   constructor(props) {
@@ -18,7 +23,7 @@ class Details extends Component {
   }
 
   _onclicktocart = () => {
-    this.props.navigation.navigate("Cart");
+    this.props.navigation.navigate(navigationStrings.CART);
   };
 
   // _onAddToCart = (item) => {
@@ -42,52 +47,34 @@ class Details extends Component {
     // const sliderWidth = 10 ;
     // const itemWidth = 10 ;
 
-    const { data , cart_Array = [] } = this.props;
+    const { data, cart_Array = [] } = this.props;
 
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            minHeight: 60,
-            backgroundColor: "white",
-          }}
-        >
-          <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
+      <SafeAreaView style={styles.safeareaview}>
+        <View style={styles.headerContainer}>
+          <View style={styles.flexStart}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("Home")}
+              onPress={() =>
+                this.props.navigation.navigate(navigationStrings.HOME)
+              }
             >
               <AntDesign
                 name="arrowleft"
                 size={30}
-                style={{ marginHorizontal: 15 }}
+                style={styles.marginhfifteen}
               />
             </TouchableOpacity>
           </View>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
-          >
-            <EvilIcons
-              name="search"
-              size={30}
-              style={{ marginHorizontal: 10 }}
-            />
-            <EvilIcons
-              name="heart"
-              size={30}
-              style={{ marginHorizontal: 10 }}
-            />
-            <Text style={{ color: "red", fontWeight: "bold" }}>
-              {cart_Array.length}
-            </Text>
+          <View style={styles.spacearound}>
+            <EvilIcons name="search" size={30} style={styles.marginhTen} />
+            <EvilIcons name="heart" size={30} style={styles.marginhTen} />
+            <Text style={styles.cartQuantity}>{cart_Array.length}</Text>
 
             <TouchableOpacity onPress={this._onclicktocart}>
               <AntDesign
                 name="shoppingcart"
                 size={25}
-                style={{ marginHorizontal: 10 }}
+                style={styles.marginhTen}
               />
             </TouchableOpacity>
           </View>
@@ -119,327 +106,96 @@ class Details extends Component {
       /> */}
         <ScrollView>
           <View>
-            <Image
-              source={{ uri: data.image }}
-              style={{
-                width: 400,
-                height: 400,
-                resizeMode: "contain",
-                flexDirection: "row",
-                justifyContent: "center",
-                marginBottom: 5,
-              }}
-            />
+            <Image source={{ uri: data.image }} style={styles.image} />
           </View>
 
-          <View style={{ backgroundColor: "white" }}>
-            <View
-              style={{ marginVertical: 2, marginHorizontal: 20, marginTop: 10 }}
-            >
-              <Text
-                style={{ color: "black", fontWeight: "bold", fontSize: 16 }}
-              >
-                {data.name}
-              </Text>
+          <View style={styles.bgWhite}>
+            <View style={styles.nameContainer}>
+              <Text style={styles.name}>{data.name}</Text>
             </View>
-            <View style={{ marginVertical: 2, marginHorizontal: 20 }}>
-              <Text style={{ color: "#8d8d8d" }}>{data.text}</Text>
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>{data.text}</Text>
             </View>
 
-            <View
-              style={{
-                flexDirection: "row",
-                marginTop: 20,
-                marginHorizontal: 10,
-              }}
-            >
-              <Text
-                style={{
-                  color: "#121212",
-                  fontWeight: "bold",
-                  marginHorizontal: 10,
-                }}
-              >
-                {data.reducedPrice}
-              </Text>
-              <Text
-                style={{
-                  color: "#686868",
-                  textDecorationLine: "line-through",
-                  textDecorationStyle: "solid",
-                  margin: 2,
-                  marginHorizontal: 10,
-                }}
-              >
-                {data.originalPrice}
-              </Text>
-              <Text
-                style={{
-                  color: "#11b877",
-                  margin: 2,
-                  marginHorizontal: 10,
-                  fontWeight: "bold",
-                }}
-              >
-                {data.discount} OFF
+            <View style={styles.priceContainer}>
+              <Text style={styles.reducedPrice}>{data.reducedPrice}</Text>
+              <Text style={styles.originalPrice}>{data.originalPrice}</Text>
+              <Text style={styles.discount}>
+                {data.discount} {strings.OFF}
               </Text>
             </View>
-            <View style={{ marginBottom: 10 }}>
-              <Text
-                style={{
-                  color: "#727272",
-                  margin: 2,
-                  fontSize: 12,
-                  marginHorizontal: 20,
-                }}
-              >
-                Price Inclusive of all taxes.
-              </Text>
+            <View style={styles.marginbTen}>
+              <Text style={styles.tax}>{strings.TAX}</Text>
             </View>
           </View>
-          <View style={{ minHeight: 12 }}></View>
+          <View style={styles.heightTwelve}></View>
 
-          <View style={{ backgroundColor: "white" }}>
-            <View
-              style={{ marginVertical: 2, marginHorizontal: 20, marginTop: 10 }}
-            >
-              <Text
-                style={{ color: "black", fontWeight: "bold", fontSize: 16 }}
-              >
-                Color
-              </Text>
+          <View style={styles.bgWhite}>
+            <View style={styles.nameContainer}>
+              <Text style={styles.name}>{strings.COLOR}</Text>
             </View>
-            <View style={{ marginVertical: 2, marginHorizontal: 20 }}>
-              <Text style={{ color: "#8d8d8d" }}>Black</Text>
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>{strings.BLACK}</Text>
             </View>
-            <View
-              style={{
-                marginVertical: 2,
-                marginHorizontal: 20,
-                width: 40,
-                height: 40,
-                backgroundColor: "black",
-                borderRadius: 50,
-                marginBottom: 10,
-              }}
-            ></View>
+            <View style={styles.blackCircle}></View>
           </View>
-          <View style={{ minHeight: 12 }}></View>
-          <View style={{ backgroundColor: "white" }}>
-            <View
-              style={{ marginVertical: 2, marginHorizontal: 20, marginTop: 10 }}
-            >
-              <Text
-                style={{ color: "black", fontWeight: "bold", fontSize: 16 }}
-              >
-                Select Size
-              </Text>
+          <View style={styles.heightTwelve}></View>
+          <View style={styles.bgWhite}>
+            <View style={styles.nameContainer}>
+              <Text style={styles.name}>{strings.SIZE}</Text>
 
-              <View
-                style={{ flexDirection: "row", justifyContent: "flex-start" }}
-              >
-                <View
-                  style={{
-                    marginVertical: 10,
-                    marginHorizontal: 3,
-                    width: 40,
-                    height: 40,
-                    borderTopWidth: 0.5,
-                    borderTopColor: "#f0f0f0",
-                    borderLeftWidth: 0.5,
-                    borderLeftColor: "#f0f0f0",
-                    borderBottomWidth: 2,
-                    borderBottomColor: "#e3e3e3",
-                    borderRightWidth: 2,
-                    borderRightColor: "#e3e3e3",
-                    marginBottom: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 5,
-                  }}
-                >
-                  <Text>28</Text>
+              <View style={styles.sizeContainer}>
+                <View style={styles.size}>
+                  <Text>{strings.SIZE_28}</Text>
                 </View>
 
-                <View
-                  style={{
-                    marginVertical: 10,
-                    marginHorizontal: 5,
-                    width: 40,
-                    height: 40,
-                    borderTopWidth: 0.5,
-                    borderTopColor: "#f0f0f0",
-                    borderLeftWidth: 0.5,
-                    borderLeftColor: "#f0f0f0",
-                    borderBottomWidth: 2,
-                    borderBottomColor: "#e3e3e3",
-                    borderRightWidth: 2,
-                    borderRightColor: "#e3e3e3",
-                    marginBottom: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 5,
-                  }}
-                >
-                  <Text>30</Text>
+                <View style={styles.size}>
+                  <Text>{strings.SIZE_30}</Text>
                 </View>
 
-                <View
-                  style={{
-                    marginVertical: 10,
-                    marginHorizontal: 5,
-                    width: 40,
-                    height: 40,
-                    borderTopWidth: 0.5,
-                    borderTopColor: "#f0f0f0",
-                    borderLeftWidth: 0.5,
-                    borderLeftColor: "#f0f0f0",
-                    borderBottomWidth: 2,
-                    borderBottomColor: "#e3e3e3",
-                    borderRightWidth: 2,
-                    borderRightColor: "#e3e3e3",
-                    marginBottom: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 5,
-                  }}
-                >
-                  <Text>32</Text>
+                <View style={styles.size}>
+                  <Text>{strings.SIZE_32}</Text>
                 </View>
 
-                <View
-                  style={{
-                    marginVertical: 10,
-                    marginHorizontal: 5,
-                    width: 40,
-                    height: 40,
-                    borderTopWidth: 0.5,
-                    borderTopColor: "#f0f0f0",
-                    borderLeftWidth: 0.5,
-                    borderLeftColor: "#f0f0f0",
-                    borderBottomWidth: 2,
-                    borderBottomColor: "#e3e3e3",
-                    borderRightWidth: 2,
-                    borderRightColor: "#e3e3e3",
-                    marginBottom: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 5,
-                  }}
-                >
-                  <Text>34</Text>
+                <View style={styles.size}>
+                  <Text>{strings.SIZE_34}</Text>
                 </View>
-                <View
-                  style={{
-                    marginVertical: 10,
-                    marginHorizontal: 5,
-                    width: 40,
-                    height: 40,
-                    borderTopWidth: 0.5,
-                    borderTopColor: "#f0f0f0",
-                    borderLeftWidth: 0.5,
-                    borderLeftColor: "#f0f0f0",
-                    borderBottomWidth: 2,
-                    borderBottomColor: "#e3e3e3",
-                    borderRightWidth: 2,
-                    borderRightColor: "#e3e3e3",
-                    marginBottom: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 5,
-                  }}
-                >
-                  <Text>36</Text>
+                <View style={styles.size}>
+                  <Text>{strings.SIZE_36}</Text>
                 </View>
 
-                <View
-                  style={{
-                    marginVertical: 10,
-                    marginHorizontal: 5,
-                    width: 40,
-                    height: 40,
-                    borderTopWidth: 0.5,
-                    borderTopColor: "#f0f0f0",
-                    borderLeftWidth: 0.5,
-                    borderLeftColor: "#f0f0f0",
-                    borderBottomWidth: 2,
-                    borderBottomColor: "#e3e3e3",
-                    borderRightWidth: 2,
-                    borderRightColor: "#e3e3e3",
-                    marginBottom: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 5,
-                  }}
-                >
-                  <Text>38</Text>
+                <View style={styles.size}>
+                  <Text>{strings.SIZE_38}</Text>
                 </View>
               </View>
             </View>
           </View>
 
-          <View style={{ minHeight: 12 }}></View>
+          <View style={styles.heightTwelve}></View>
         </ScrollView>
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: 70,
-            backgroundColor: "white",
-          }}
-        >
-          <View
-            style={{
-              width: 60,
-              height: 50,
-              backgroundColor: "#f3f3f3",
-              borderRadius: 10,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              marginHorizontal: 5,
-            }}
-          >
-            <FontAwesome name="whatsapp" size={30} color="black" />
+        <View style={styles.footerContainer}>
+          <View style={styles.iconContainer}>
+            <FontAwesome name="whatsapp" size={30} color={colors.black} />
           </View>
-          <View
-            style={{
-              width: 60,
-              height: 50,
-              backgroundColor: "#f3f3f3",
-              borderRadius: 10,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              marginHorizontal: 5,
-            }}
-          >
+          <View style={styles.iconContainer}>
             <EvilIcons name="heart" size={30} />
           </View>
 
           <TouchableOpacity
-            // onPress={
-            //   // () => this.props.navigation.navigate("Home")
-            //    data => this._onAddToCart(data)
-            // }
+          // onPress={
+          //   // () => this.props.navigation.navigate("Home")
+          //    data => this._onAddToCart(data)
+          // }
           >
-            <View
-              style={{
-                flexDirection: "row",
-                backgroundColor: "#202020",
-                marginHorizontal: 20,
-                borderRadius: 4,
-                justifyContent: "space-between",
-                alignItems: "center",
-                height: 50,
-                paddingHorizontal: 40,
-              }}
-            >
-              <AntDesign name="shoppingcart" size={25} color="#fbfbfb" />
+            <View style={styles.addToBagButton}>
+              <AntDesign
+                name="shoppingcart"
+                size={25}
+                color={colors.lightwhite}
+              />
 
-              <Text style={{ color: "#fbfbfb" }}> Add To Bag</Text>
+              <Text style={styles.textColor}>{strings.ADD_TO_BAG}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -457,4 +213,3 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps)(Details);
 
-const styles = StyleSheet.create({});

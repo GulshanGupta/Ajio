@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, SafeAreaView, FlatList, Image } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  Image,
+  StyleSheet,
+} from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -7,99 +14,61 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import Nodata from "../../Component/Nodata";
 import { connect } from "react-redux";
+import navigationStrings from "../../constants/navigationStrings";
+import strings from "../../constants/lang";
+import colors from "../../styles/colors";
+import commonStyles from "../../styles/commonStyles";
+import styles from "./styles";
 
 class Cart extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      
-    };
+    this.state = {};
   }
 
-  renderItem = ({ item , index }) => {
+  renderItem = ({ item, index }) => {
     return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          marginVertical: 10,
-          marginHorizontal: 30,
-          backgroundColor: "white",
-          minHeight: 150,
-          borderRadius: 10,
-        }}
-      >
-        <View style={{ flex: 3, justifyContent: "center" }}>
-          <Image
-            source={{ uri: item.image }}
-            style={{
-              width: 90,
-              height: 120,
-              marginVertical: 10,
-              marginHorizontal: 10,
-              borderRadius: 5,
-            }}
-          />
+      <View style={styles.cardContainer}>
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: item.image }} style={styles.image} />
         </View>
-        <View
-          style={{
-            flex: 6,
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-          }}
-        >
-          <View style={{ marginHorizontal: 10 }}>
-            <Text style={{ color: "#636363", fontWeight: "bold" }}>
-              {item.name}
+        <View style={styles.contentContainer}>
+          <View style={styles.marginhorizontalTen}>
+            <Text style={styles.productName}>{item.name}</Text>
+          </View>
+          <View style={styles.marginhorizontalTen}>
+            <Text style={styles.text}>{item.text}</Text>
+          </View>
+          <View style={styles.priceContainer}>
+            <Text style={styles.reducedPrice}>
+              {item.quantity * item.reducedPrice}
+            </Text>
+            <Text style={styles.originalPrice}>{item.originalPrice}</Text>
+            <Text style={styles.discount}>
+              {item.discount} {strings.OFF}
             </Text>
           </View>
-          <View style={{ marginHorizontal: 10 }}>
-            <Text style={{ color: "#757575" }}>{item.text}</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              marginHorizontal: 2,
-            }}
-          >
-            <Text style={{ color: "#040404", fontWeight: "bold" }}>
-               {item.quantity * item.reducedPrice}
-            </Text>
-            <Text
-              style={{ color: "#040404", textDecorationLine: "line-through" }}
-            >
-              {item.originalPrice}
-            </Text>
-            <Text style={{ color: "#209169", fontWeight: "bold" }}>
-              {item.discount} OFF
-            </Text>
-          </View>
-          <View style={{ flexDirection: "row" , marginHorizontal: 10 }}>
+          <View style={styles.quantityHandlerContainer}>
             <TouchableOpacity
               onPress={() => this.quantityHandler("less", index)}
-              style={{ borderWidth: 1, borderColor: "#cccccc" }}
+              style={styles.box}
             >
-              <MaterialIcons name="remove" size={22} color="#cccccc" />
+              <MaterialIcons
+                name="remove"
+                size={22}
+                color={colors.verylightgrey}
+              />
             </TouchableOpacity>
-            <Text
-              style={{
-                borderTopWidth: 1,
-                borderBottomWidth: 1,
-                borderColor: "#cccccc",
-                paddingHorizontal: 7,
-                paddingTop: 3,
-                color: "#bbbbbb",
-                fontSize: 13,
-              }}
-            >
-              {item.quantity}
-            </Text>
+            <Text style={styles.itemQuantity}>{item.quantity}</Text>
             <TouchableOpacity
               onPress={() => this.quantityHandler("more", index)}
-              style={{ borderWidth: 1, borderColor: "#cccccc" }}
+              style={styles.box}
             >
-              <MaterialIcons name="add" size={22} color="#cccccc" />
+              <MaterialIcons
+                name="add"
+                size={22}
+                color={colors.verylightgrey}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -108,60 +77,53 @@ class Cart extends Component {
   };
 
   quantityHandler = (action, index) => {
-
     const { cart_Array = [] } = this.props;
 
-   
     const newItems = [...cart_Array];
 
-    let currentQty = newItems[index]['quantity'];
+    let currentQty = newItems[index]["quantity"];
 
-    if(action == 'more'){
-    	newItems[index]['quantity'] = currentQty + 1;
-
-    } else if(action == 'less'){
-    	newItems[index]['quantity'] = currentQty > 1 ? currentQty - 1 : 1;
+    if (action == "more") {
+      newItems[index]["quantity"] = currentQty + 1;
+    } else if (action == "less") {
+      newItems[index]["quantity"] = currentQty > 1 ? currentQty - 1 : 1;
     }
 
     this.setState({ cart_Array: newItems });
-
   };
 
   subtotalPrice = () => {
-		const { cart_Array = [] } = this.props;
-		if(cart_Array){
-			return cart_Array.reduce((sum, item) => sum + ( item.quantity * item.reducedPrice ), 0 );
-		}
-		return 0;
-	}
+    const { cart_Array = [] } = this.props;
+    if (cart_Array) {
+      return cart_Array.reduce(
+        (sum, item) => sum + item.quantity * item.reducedPrice,
+        0
+      );
+    }
+    return 0;
+  };
 
   render() {
     const { cart_Array = [] } = this.props;
 
-
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-        <View
-          style={{
-            minHeight: 60,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-around",
-          }}
-        >
+      <SafeAreaView style={styles.safeareaview}>
+        <View style={styles.headerContainer}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Home")}
+            onPress={() =>
+              this.props.navigation.navigate(navigationStrings.HOME)
+            }
           >
             <Entypo name="cross" size={30} />
           </TouchableOpacity>
 
-          <Text style={{ marginRight: 200, fontWeight: "bold" }}>Bag</Text>
+          <Text style={styles.headerHeading}>{strings.BAG}</Text>
 
           <AntDesign name="hearto" size={25} />
         </View>
 
         {cart_Array.length > 0 ? (
-          <View style={{ flex: 1, backgroundColor: "#f0f4f7" }}>
+          <View style={styles.cartItemsContainer}>
             <FlatList
               keyExtractor={(item) => item.id.toString()}
               data={cart_Array}
@@ -169,40 +131,26 @@ class Cart extends Component {
             />
           </View>
         ) : (
-          <View style={{ flex: 1, backgroundColor: "#f0f4f7" }}>
+          <View style={styles.cartItemsContainer}>
             <Nodata data="Cart" />
           </View>
         )}
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-            alignItems: "center",
-            minHeight: 70,
-            backgroundColor: "white",
-          }}
-        >
-          <View style={{ flexDirection: "column", marginEnd: 20 }}>
-            <Text style={{ color: "#040404", fontWeight: "bold" }}>{this.subtotalPrice()}</Text>
-            <Text style={{ color: "blue" }}>View Details</Text>
+        <View style={styles.cartpagefooterContainer}>
+          <View style={styles.totalpriceContainer}>
+            <Text style={styles.totalPrice}>{this.subtotalPrice()}</Text>
+            <Text style={styles.details}>{strings.VIEW_DETAILS}</Text>
           </View>
 
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("confirm" , {data:data})}
+            onPress={() =>
+              this.props.navigation.navigate(navigationStrings.CONFIRMED_ORDER)
+            }
           >
-            <View
-              style={{
-                backgroundColor: "#202020",
-                borderRadius: 6,
-                justifyContent: "center",
-                alignItems: "center",
-                height: 50,
-                paddingHorizontal: 40,
-                marginLeft: 20,
-              }}
-            >
-              <Text style={{ color: "#fbfbfb" }}> Confirm Order</Text>
+            <View style={styles.confirmorderButtonConatainer}>
+              <Text style={styles.confirmordertext}>
+                {strings.CONFIRM_ORDER}
+              </Text>
             </View>
           </TouchableOpacity>
         </View>

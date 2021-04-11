@@ -8,6 +8,7 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  StyleSheet,
 } from "react-native";
 import actions from "../../redux/actions";
 import { connect } from "react-redux";
@@ -17,59 +18,38 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import Nodata from "../../Component/Nodata";
 import colors from "../../styles/colors";
 import { MaterialIndicator } from "react-native-indicators";
+import navigationStrings from "../../constants/navigationStrings";
+import strings from "../../constants/lang";
+import styles from "./styles";
 
 class LatestDeals extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      skip: 0 ,
+      skip: 0,
       isLoading: true,
       isLoadingMore: false,
       isNoMoreData: false,
       refreshing: false,
-      userSearchData:[]
+      userSearchData: [],
     };
   }
 
   renderItem = ({ item }) => {
     return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          marginVertical: 10,
-          marginHorizontal: 30,
-          backgroundColor: "white",
-          minHeight: 150,
-          borderRadius: 10,
-        }}
-      >
-        <View style={{ flex: 3, justifyContent: "center" }}>
+      <View style={styles.cardContainer}>
+        <View style={styles.imageContainer}>
           <Image
             source={{ uri: item.profileImg[0].thumbnail }}
-            style={{
-              width: 90,
-              height: 120,
-              marginVertical: 10,
-              marginHorizontal: 10,
-              borderRadius: 5,
-            }}
+            style={styles.image}
           />
         </View>
-        <View
-          style={{
-            flex: 6,
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-          }}
-        >
-          <View style={{ marginHorizontal: 10 }}>
-            <Text style={{ color: colors.black, fontWeight: "bold" }}>
-              {item.fullName}
-            </Text>
+        <View style={styles.contentContainer}>
+          <View style={styles.marginhorizontalten}>
+            <Text style={styles.name}>{item.fullName}</Text>
           </View>
-          <View style={{ marginHorizontal: 10 }}>
-            <Text style={{ color: colors.black_api }}>{item.email}</Text>
+          <View style={styles.marginhorizontalten}>
+            <Text style={styles.email}>{item.email}</Text>
           </View>
         </View>
       </View>
@@ -96,8 +76,7 @@ class LatestDeals extends Component {
   };
 
   makeRequest = (onEndReachCall = false) => {
-    
-    const {skip, userSearchData , isListEnd } = this.state;
+    const { skip, userSearchData, isListEnd } = this.state;
 
     let calcSkip = onEndReachCall ? skip + userSearchData.length : 0;
 
@@ -112,10 +91,9 @@ class LatestDeals extends Component {
       .then((response) => {
         console.log(response);
         if (response.data.length > 0) {
-
           let profilesData = onEndReachCall
-              ? [...userSearchData, ...response.data]
-              : response.data;
+            ? [...userSearchData, ...response.data]
+            : response.data;
           this.setState({
             userSearchData: profilesData,
             isLoading: false,
@@ -142,46 +120,41 @@ class LatestDeals extends Component {
     const { isLoadingMore } = this.state;
     if (isLoadingMore) {
       return (
-        <View style={{ paddingBottom: 40 }}>
-          <MaterialIndicator color="grey" />
+        <View style={styles.footerpadding}>
+          <MaterialIndicator color={colors.grey_material_indicator} />
         </View>
       );
     }
-    return <View style={{ height: 50 }} />;
+    return <View style={styles.heightfifty} />;
   };
 
   render() {
-    const {isLoading , isLoadingMore, refreshing , userSearchData } = this.state;
+    const { isLoading, isLoadingMore, refreshing, userSearchData } = this.state;
 
     console.log("SEARCH DATA IN RENDER", userSearchData);
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
-        <View
-          style={{
-            minHeight: 60,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-around",
-          }}
-        >
+      <SafeAreaView style={styles.safeareaview}>
+        <View style={styles.headerContainer}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Home")}
+            onPress={() =>
+              this.props.navigation.navigate(navigationStrings.HOME)
+            }
           >
             <Entypo name="cross" size={30} />
           </TouchableOpacity>
 
-          <Text style={{ marginRight: 200, fontWeight: "bold" }}>Users</Text>
+          <Text style={styles.headerHeading}>{strings.USERS}</Text>
 
           <AntDesign name="hearto" size={25} />
         </View>
-        <View style={{ flex: 1, backgroundColor: colors.backgroundColor }}>
+        <View style={styles.flatlistContainer}>
           <FlatList
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={this._onRefresh}
-            />
-          }
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={this._onRefresh}
+              />
+            }
             data={userSearchData}
             onEndReachedThreshold={1}
             renderItem={this.renderItem}

@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Cart, HomePage, Profile, LatestDeals , Search } from "../Screen/index";
+import { Cart, HomePage, Profile, LatestDeals, Search } from "../Screen/index";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import navigationStrings from "../constants/navigationStrings";
-
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +25,7 @@ function TabRoutes() {
         }}
       />
       <Tab.Screen
-        name="LatestDeals"
+        name={navigationStrings.LATEST_DEALS}
         component={LatestDeals}
         options={{
           tabBarLabel: "Deals",
@@ -37,7 +36,7 @@ function TabRoutes() {
       />
 
       <Tab.Screen
-        name="Search"
+        name={navigationStrings.SEARCH}
         component={Search}
         options={{
           tabBarLabel: "Search",
@@ -47,7 +46,7 @@ function TabRoutes() {
         }}
       />
       <Tab.Screen
-        name="Cart"
+        name={navigationStrings.CART}
         component={Cart}
         options={{
           tabBarLabel: "Cart",
@@ -58,7 +57,7 @@ function TabRoutes() {
       />
 
       <Tab.Screen
-        name="Profile"
+        name={navigationStrings.PROFILE}
         component={Profile}
         options={{
           tabBarLabel: "Account",

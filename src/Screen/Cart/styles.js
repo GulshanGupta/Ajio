@@ -1,0 +1,82 @@
+import { StyleSheet } from "react-native";
+import colors from "../../styles/colors";
+import commonStyles from "../../styles/commonStyles";
+
+export default StyleSheet.create({
+  safeareaview: { flex: 1, backgroundColor: colors.white },
+  headerContainer: {
+    minHeight: 60,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+  },
+  headerHeading: { marginRight: 200, fontWeight: "bold" },
+  cartItemsContainer: { flex: 1, backgroundColor: colors.backgroundColor },
+  cartpagefooterContainer: {
+    ...commonStyles.bgwhite,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    minHeight: 70,
+  },
+  totalpriceContainer: { flexDirection: "column", marginEnd: 20 },
+  totalPrice: { color: colors.total_price, fontWeight: "bold" },
+  details: { color: colors.blue },
+  confirmordertext: { color: colors.lightwhite },
+  confirmorderButtonConatainer: {
+    backgroundColor: colors.lightblack,
+    borderRadius: 6,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 50,
+    paddingHorizontal: 40,
+    marginLeft: 20,
+  },
+  cardContainer: {
+    ...commonStyles.bgwhite,
+    flex: 1,
+    flexDirection: "row",
+    marginVertical: 10,
+    marginHorizontal: 30,
+    minHeight: 150,
+    borderRadius: 10,
+  },
+  imageContainer: { flex: 3, justifyContent: "center" },
+  image: {
+    width: 90,
+    height: 120,
+    marginVertical: 10,
+    marginHorizontal: 10,
+    borderRadius: 5,
+  },
+  contentContainer: {
+    flex: 6,
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+  },
+  productName: { color: colors.black_api, fontWeight: "bold" },
+  text: { color: colors.desc },
+  priceContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginHorizontal: 2,
+  },
+  reducedPrice: { color: colors.reduced_price, fontWeight: "bold" },
+  marginhorizontalTen: { marginHorizontal: 10 },
+  originalPrice: {
+    color: colors.originalPrice,
+    textDecorationLine: "line-through",
+  },
+  discount: { color: colors.discount, fontWeight: "bold" },
+  quantityHandlerContainer: { flexDirection: "row", marginHorizontal: 10 },
+  box: { borderWidth: 1, borderColor: colors.verylightgrey },
+  itemQuantity: {
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.verylightgrey,
+    paddingHorizontal: 7,
+    paddingTop: 3,
+    color: colors.item_quantity,
+    fontSize: 13,
+  },
+});

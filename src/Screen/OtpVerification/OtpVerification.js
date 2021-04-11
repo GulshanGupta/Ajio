@@ -9,11 +9,12 @@ import {
 } from "react-native";
 import { showMessage, errorMessage } from "react-native-flash-message";
 import WrapperContainer from "../../Component/WrapperContainer";
-import Mymodal from "../../Component/Mymodal";
-import actions from "../../redux/actions" ;
-import validator from "../../utils/validations"
+import FormModal from "../../Component/FormModal";
+import actions from "../../redux/actions";
+import validator from "../../utils/validations";
 import navigationStrings from "../../constants/navigationStrings";
-
+import styles from "./styles";
+import strings from "../../constants/lang";
 
 export default class OtpVerification extends Component {
   constructor(props) {
@@ -54,8 +55,8 @@ export default class OtpVerification extends Component {
 
     let dataSend = {
       contactDetails: {
-        countryCode: "+91",
-        countryCodeISO: "IN",
+        countryCode: strings.INDIAN_CODE,
+        countryCodeISO: strings.IN,
         phoneNo: phoneNumber,
       },
     };
@@ -71,7 +72,7 @@ export default class OtpVerification extends Component {
         showMessage({
           type: "success",
           icon: "success",
-          message: "OTP SENT",
+          message: strings.OTP_SENT,
         });
       })
       .catch((error) => {
@@ -83,21 +84,14 @@ export default class OtpVerification extends Component {
     const { modalVisible } = this.state;
     return (
       <WrapperContainer>
-        <View style={{ flex: 1 }}>
-          <View
-            style={{
-              backgroundColor: "#4c8cf8",
-              minHeight: 180,
-              borderBottomLeftRadius: 12,
-              borderBottomRightRadius: 12,
-            }}
-          ></View>
+        <View style={styles.mainView}>
+          <View style={styles.forModalView}></View>
 
-          <Mymodal
+          <FormModal
             navigation={this.props.navigation}
             modalVisible={modalVisible}
             setModalVisible={this.setModalVisible}
-            onchangetext={(key)=>this.changeTextInput(key)}
+            onchangetext={(key) => this.changeTextInput(key)}
             onClick={this.isValidlogin}
           />
         </View>

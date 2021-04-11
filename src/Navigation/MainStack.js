@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-// import TabRoutes from "./TabRoutes";
+import TabRoutes from "./TabRoutes";
 import navigationStrings from "../constants/navigationStrings";
 import { Details, Confirmedorder, Chat } from "../Screen/index";
 import DrawerRoutes from "./DrawerRoutes";
@@ -10,14 +10,14 @@ export default function () {
   return (
     <>
       <Stack.Screen
-        name="Drawerroutes"
+        name={navigationStrings.DRAWER_ROUTES}
         options={{
           headerShown: false,
         }}
         component={DrawerRoutes}
       />
       <Stack.Screen
-        name="Chat"
+        name={navigationStrings.CHAT}
         options={{
           headerShown: false,
         }}
@@ -32,20 +32,13 @@ export default function () {
       />
 
       <Stack.Screen
-        name="Details"
+        name={navigationStrings.DETAILS}
         options={{
           headerShown: false,
         }}
         component={Details}
-      />
-
-      <Stack.Screen
-        name={navigationStrings.CONFIRMED_ORDER}
-        options={{
-          headerShown: false,
-        }}
-        component={Confirmedorder}
       /> */}
+      
     </>
   );
 }

@@ -1,6 +1,3 @@
-export {default as Login} from "./Login/Login"
-export {default as Signup} from "./Signup/Signup"
-export {default as MainPage} from "./MainPage/MainPage"
 export {default as LandingPage} from "./LandingPage/LandingPage"
 export {default as Cart} from "./Cart/Cart"
 export {default as HomePage} from "./HomePage/HomePage"
@@ -9,8 +6,6 @@ export {default as Profile} from "./Profile/Profile"
 export {default as OtpVerification} from "./OtpVerification/OtpVerification"
 export {default as OtpConfirmation} from "./OtpConfirmation/OtpConfirmation"
 export {default as Details} from "./Details/Details"
-export {default as Confirmedorder} from "./Confirmedorder/Confirmedorder"
-export {default as LoginMedi} from "./LoginMedi/LoginMedi"
 export {default as Search} from "./Search/Search"
 
 

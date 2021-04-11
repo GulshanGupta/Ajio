@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import { View, Text, SafeAreaView , StyleSheet } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet } from "react-native";
 import { GiftedChat, Bubble, Composer, Send } from "react-native-gifted-chat";
 import actions from "../../redux/actions";
 import Header from "../../Component/Header";
 import { connect } from "react-redux";
-import { SOCKET_STRINGS } from "../../utils/constants/constants";
+import { SOCKET_STRINGS } from "../../constants/socketStrings";
 import socketServices from "../../utils/socketService";
 import colors from "../../styles/colors";
+import styles from "./styles";
 
 class Chat extends Component {
   constructor(props) {
@@ -18,9 +19,9 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-      const {  userData } = this.props ;
+    const { userData } = this.props;
     this.makeRequest();
-    socketServices.initializeSocket(userData.accessToken)
+    socketServices.initializeSocket(userData.accessToken);
     // socketServices.on(SOCKET_STRINGS.RECEIVED_MESSAGE, this.onReceiveMessage);
   }
 
@@ -28,7 +29,7 @@ class Chat extends Component {
     if (String(messages[0].text).trim().length < 1) {
       return;
     }
-    const { commonConversationId , _id } = this.props.route.params;
+    const { commonConversationId, _id } = this.props.route.params;
     const { userData } = this.props;
     // To send new message
     socketServices.emit(SOCKET_STRINGS.SEND_MESSAGE, {
@@ -44,8 +45,7 @@ class Chat extends Component {
   }
 
   makeRequest = () => {
-    const { commonConversationId , profileImg } = this.props.route.params;
-
+    const { commonConversationId, profileImg } = this.props.route.params;
 
     actions
       .getUserMessageOneToOne(commonConversationId)
@@ -53,29 +53,29 @@ class Chat extends Component {
         console.log(response);
 
         const messages = response.data.map((data, index) => {
-            let message = {
-              _id: data._id,
-              text: data.text,
-              createdAt: data.createdAt,
-              user: {
-                _id: data.senderId._id,
-                name: data.senderId.firstName,
-                // avatar: data.senderId.profileImg[0].thumbnail,
-                avatar:  profileImg && profileImg[0].thumbnail
-              },
-            };
-            if (!!data.repliedToText) {
-                message.replyText = data.repliedToText;
-              }
-              return message;
-            });
-            this.setState({ messages : messages });
-          })
-        // this.setState({
-        //   chatsData: response.data,
+          let message = {
+            _id: data._id,
+            text: data.text,
+            createdAt: data.createdAt,
+            user: {
+              _id: data.senderId._id,
+              name: data.senderId.firstName,
+              // avatar: data.senderId.profileImg[0].thumbnail,
+              avatar: profileImg && profileImg[0].thumbnail,
+            },
+          };
+          if (!!data.repliedToText) {
+            message.replyText = data.repliedToText;
+          }
+          return message;
+        });
+        this.setState({ messages: messages });
+      })
+      // this.setState({
+      //   chatsData: response.data,
 
-        //   //   isLoadingMore: false,
-        // });
+      //   //   isLoadingMore: false,
+      // });
       .catch((error) => {
         console.log(error);
         // this.setState({
@@ -88,14 +88,11 @@ class Chat extends Component {
   render() {
     const { fullName } = this.props.route.params;
     const { messages } = this.state;
-    const { userData } = this.props ;
-    console.log(messages , "THESE ARE MESSAGES ") ;
+    const { userData } = this.props;
+    console.log(messages, "THESE ARE MESSAGES ");
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <Header
-          bgcolor="rgba(134, 65, 244, 0.8)"
-          headingText={fullName}
-        />
+      <SafeAreaView style={styles.flexOne}>
+        <Header bgcolor={colors.header_color_purple} headingText={fullName} />
 
         <GiftedChat
           messages={messages}
@@ -110,22 +107,11 @@ class Chat extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  messgeTextInput: {
-    backgroundColor: colors.lightGray,
-    paddingTop: Platform.OS == "ios" ? 10 : undefined,
-    borderRadius: 50,
-    paddingHorizontal: 20,
-    textAlignVertical: "center",
-    alignSelf: "center",
-  },
-});
-
 const mapStateToProps = (state) => {
-    return {
-      isLoggedin: state.auth.isLoggedin,
-      userData: state.auth.userData,
-    };
+  return {
+    isLoggedin: state.auth.isLoggedin,
+    userData: state.auth.userData,
   };
+};
 
-  export default connect(mapStateToProps)(Chat);
+export default connect(mapStateToProps)(Chat);

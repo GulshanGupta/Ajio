@@ -6,11 +6,16 @@ import {
   FlatList,
   Image,
   StyleSheet,
-  Alert
+  Alert,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Feather from "react-native-vector-icons/Feather";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
+import imagePath from "../../constants/imagePath";
+import strings from "../../constants/lang";
+import colors from "../../styles/colors";
+import commonStyles from "../../styles/commonStyles";
+import styles from "./styles";
 
 
 export default class Profile extends Component {
@@ -63,7 +68,7 @@ export default class Profile extends Component {
           name: "Join Our Team",
         },
       ],
-      selectedImage: 'https://media-exp1.licdn.com/dms/image/C4E03AQF0H99QBEeRjQ/profile-displayphoto-shrink_800_800/0/1551100776137?e=1620259200&v=beta&t=gBlSSRq1Fy1T1MIDzaDqJil64QIkycxWfBSfEOXlCOo'
+      selectedImage: imagePath.selectedImage,
     };
   }
 
@@ -77,119 +82,96 @@ export default class Profile extends Component {
   //      }
   //      console.log("permission mil gyi h " , permission)
 
-      //  let picker = await ImagePicker.launchImageLibraryAsync({
-      //    mediaTypes:ImagePicker.MediaTypeOptions.All ,
-      //    allowsEditing:true,
-      //    quality:1
-      //  })
-      //  if(picker.cancelled === true){
-      //    return ;
-      //  }
-      //  console.log("picker hu m " , picker) ;
-      //  this.setState({
-      //    selectedImage : picker.uri
-      //  })
+  //  let picker = await ImagePicker.launchImageLibraryAsync({
+  //    mediaTypes:ImagePicker.MediaTypeOptions.All ,
+  //    allowsEditing:true,
+  //    quality:1
+  //  })
+  //  if(picker.cancelled === true){
+  //    return ;
+  //  }
+  //  console.log("picker hu m " , picker) ;
+  //  this.setState({
+  //    selectedImage : picker.uri
+  //  })
 
-
-      // let picker = await ImagePicker.launchCameraAsync({
-      //   mediaTypes: ImagePicker.MediaTypeOptions.All ,
-      //   allowsEditing:true,
-      //   quality:1
-      // }) 
-      // if(picker.cancelled === true){
-      //   return ;
-      // }
-      //  console.log("picker hu m " , picker) ;
-      //  this.setState({
-      //    selectedImage : picker.uri
-      //  })
+  // let picker = await ImagePicker.launchCameraAsync({
+  //   mediaTypes: ImagePicker.MediaTypeOptions.All ,
+  //   allowsEditing:true,
+  //   quality:1
+  // })
+  // if(picker.cancelled === true){
+  //   return ;
+  // }
+  //  console.log("picker hu m " , picker) ;
+  //  this.setState({
+  //    selectedImage : picker.uri
+  //  })
   // }
 
-  openImage = async() => {
-     
-   
+  openImage = async () => {
     Alert.alert(
-      "Do you want to update",
-      "Click appropriate option",
+      strings.SELECT,
       [
         {
           text: "Camera",
-          onPress: async() => {
-
+          onPress: async () => {
             let permission = await ImagePicker.requestCameraPermissionsAsync();
 
             if (permission.granted === false) {
-              
               return;
             }
-            // console.log("permission mil gyi h ", permission);
 
-            let picker =  await ImagePicker.launchCameraAsync({
+            let picker = await ImagePicker.launchCameraAsync({
               mediaTypes: ImagePicker.MediaTypeOptions.All,
               allowsEditing: true,
-              quality: 1
+              quality: 1,
             });
-            // console.log("picker hu m ", picker);
-            this.setState({
-              selectedImage: picker.uri
-            })
 
+            this.setState({
+              selectedImage: picker.uri,
+            });
           },
           style: "cancel",
         },
         {
           text: "Gallery",
-          onPress: async() => {
+          onPress: async () => {
             let permission = await ImagePicker.requestCameraPermissionsAsync();
 
             if (permission.granted === false) {
-            
               return;
             }
-            // console.log("permission mil gyi h ", permission);
-
 
             let picker = await ImagePicker.launchImageLibraryAsync({
               mediaTypes: ImagePicker.MediaTypeOptions.All,
               allowsEditing: true,
-              quality: 1
-            })
+              quality: 1,
+            });
 
             if (picker.cancelled === true) {
               return;
             }
 
-            // console.log("picker hu m ", picker);
             this.setState({
-              selectedImage: picker.uri
-            })
-
-
+              selectedImage: picker.uri,
+            });
           },
         },
       ],
       { cancelable: false }
     );
-  }
+  };
 
   renderItem = ({ item }) => {
     return (
       <View>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            margin: 20,
-            justifyContent: "space-between",
-          }}
-        >
+        <View style={styles.optionsContainer}>
           <Text>{item.name}</Text>
           <Feather name="chevron-right" size={20} />
         </View>
 
-        <View
-          style={{ height: 1, width: 400, backgroundColor: "#F5F5F5" }}
-        ></View>
+        <View style={styles.horizontalLine}></View>
       </View>
     );
   };
@@ -197,48 +179,33 @@ export default class Profile extends Component {
   render() {
     const { profileArray, selectedImage } = this.state;
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-        <View style={{ flex: 10 }}>
-          <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 15,
-                margin: 18,
-                color: "#252525",
-              }}
-            >
-              My Account
-            </Text>
+      <SafeAreaView style={styles.safeareaview}>
+        <View style={styles.flexten}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerHeading}>My Account</Text>
           </View>
-          <View
-            style={{
-              flex: 2.8,
-              backgroundColor: "#f0f4f7",
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center",
-            }}
-          >
+          <View style={styles.middleContainer}>
             <TouchableOpacity onPress={this.openImage}>
               <Image
                 source={{
                   uri: selectedImage,
                 }}
-                style={{ width: 100, height: 100, borderRadius: 50 }}
+                style={styles.userimage}
               />
             </TouchableOpacity>
 
             <View style={styles.textInput}>
               <TouchableOpacity style={styles.buttonStyle}>
-                <Text style={{ color: "#e3e3e3", fontWeight: "bold" }}>
-                  Gulshan Gupta
-                </Text>
+                <Text style={styles.userName}>{strings.USER_NAME}</Text>
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{ flex: 6 }}>
-            <FlatList keyExtractor={item => item.id.toString()} data={profileArray} renderItem={this.renderItem} />
+          <View style={styles.bottomflexSix}>
+            <FlatList
+              keyExtractor={(item) => item.id.toString()}
+              data={profileArray}
+              renderItem={this.renderItem}
+            />
           </View>
         </View>
       </SafeAreaView>
@@ -246,13 +213,3 @@ export default class Profile extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  buttonStyle: {
-    backgroundColor: "#202020",
-    padding: 15,
-    width: 200,
-    borderRadius: 8,
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-});

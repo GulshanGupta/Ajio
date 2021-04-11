@@ -14,6 +14,10 @@ import { connect } from "react-redux";
 import actions from "../../redux/actions";
 import Header from "../../Component/Header";
 import colors from "../../styles/colors";
+import strings from "../../constants/lang";
+import navigationStrings from "../../constants/navigationStrings";
+import styles from "./styles";
+
 
 class Messenger extends Component {
   constructor(props) {
@@ -22,15 +26,24 @@ class Messenger extends Component {
     this.state = {
       limit: 10,
       chatsData: [],
-      commonConversationId:null
+      commonConversationId: null,
     };
   }
 
-  onPress = (item) => {
-      console.log(item.commonConversationId , "THIS IS ID") ;
+  _onPress = () => {
+    const { navigation } = this.props;
+    navigation.toggleDrawer();
+  };
 
-    this.props.navigation.navigate("Chat" , { commonConversationId : item.commonConversationId  ,
-    _id : item._id , fullName : item.userInfo.fullName , profileImg:item.userInfo.profileImg  });
+  onPress = (item) => {
+    console.log(item.commonConversationId, "THIS IS ID");
+
+    this.props.navigation.navigate(navigationStrings.CHAT, {
+      commonConversationId: item.commonConversationId,
+      _id: item._id,
+      fullName: item.userInfo.fullName,
+      profileImg: item.userInfo.profileImg,
+    });
   };
   componentDidMount() {
     this.makeRequest();
@@ -45,7 +58,7 @@ class Messenger extends Component {
         console.log(response);
         this.setState({
           chatsData: response.data,
-          
+
           //   isLoadingMore: false,
         });
       })
@@ -97,54 +110,25 @@ class Messenger extends Component {
     const { chatsData } = this.state;
 
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <Header bgcolor="rgba(134, 65, 244, 0.8)" headingText="Messenger" />
-        <View>
-          <FlatList
-            data={chatsData}
-            onEndReachedThreshold={1}
-            renderItem={this.renderItem}
-            keyExtractor={(item) => item._id}
-          />
-        </View>
+      <SafeAreaView style={styles.flex_one}>
+        <Header
+          bgcolor={colors.header_color_purple}
+          headingText={strings.MESSENGER}
+          _onPress={this._onPress}
+        />
+
+        <FlatList
+          data={chatsData}
+          onEndReachedThreshold={1}
+          renderItem={this.renderItem}
+          keyExtractor={(item) => item._id}
+        />
       </SafeAreaView>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  dpLogo: {
-    width: 65,
-    height: 65,
-    borderRadius: 50,
-  },
-  chatRow: {
-    flex: 10,
-    flexDirection: "row",
-    margin: 10,
-  },
-  checkbox: {
-    alignSelf: "center",
-  },
-  dp: {
-    flex: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  nameHeading: {
-    flex: 7.5,
-    justifyContent: "center",
-    borderBottomColor: "#D3D3D3",
-    borderBottomWidth: 0.2,
-  },
-  freeSpace: {
-    flex: 0.5,
-  },
-  firstLineinnameHeading: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-});
+
 
 const mapStateToProps = (state) => {
   return {

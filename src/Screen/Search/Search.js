@@ -22,6 +22,7 @@ import Formbutton from "../../Component/Formbutton";
 import { MaterialIndicator } from "react-native-indicators";
 import strings from "../../constants/lang/en";
 import navigationStrings from "../../constants/navigationStrings";
+import styles from "./styles";
 
 export default class Search extends Component {
   constructor(props) {
@@ -52,26 +53,6 @@ export default class Search extends Component {
   //       });
   //     }
   //   });
-
-  // componentDidMount() {
-  //   locationPermission()
-  //     .then((response) => {
-  //       console.log(response);
-  //       alert(response);
-  //       Geolocation.getCurrentPosition(
-  //         (position) => {
-  //           console.log(position);
-  //         },
-  //         (error) => {
-  //           console.log(error.code, error.message);
-  //         },
-  //         { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
 
   onGetLocation = () => {
     const { isLoadingMore } = this.state;
@@ -116,42 +97,18 @@ export default class Search extends Component {
 
   renderItem = ({ item }) => {
     return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          marginVertical: 10,
-          marginHorizontal: 30,
-          backgroundColor: "white",
-          minHeight: 150,
-          borderRadius: 10,
-        }}
-      >
-        <View style={{ flex: 3, justifyContent: "center" }}>
+      <View style={styles.cardContainer}>
+        <View style={styles.imageContainer}>
           <Image
             source={{ uri: item.profileImg[0].thumbnail }}
-            style={{
-              width: 90,
-              height: 120,
-              marginVertical: 10,
-              marginHorizontal: 10,
-              borderRadius: 5,
-            }}
+            style={styles.image}
           />
         </View>
-        <View
-          style={{
-            flex: 6,
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-          }}
-        >
-          <View style={{ marginHorizontal: 10 }}>
-            <Text style={{ color: colors.black, fontWeight: "bold" }}>
-              {item.fullName}
-            </Text>
+        <View style={styles.contentContainer}>
+          <View style={styles.marginhorizontalTen}>
+            <Text style={styles.textStyle}>{item.fullName}</Text>
           </View>
-          <View style={{ marginHorizontal: 10 }}>
+          <View style={styles.marginhorizontalTen}>
             <Text style={{ color: colors.black_api }}>{item.email}</Text>
           </View>
         </View>
@@ -201,24 +158,26 @@ export default class Search extends Component {
       <SafeAreaView style={styles.safeareaview}>
         <View style={styles.navbar}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate(navigationStrings.HOME)}
+            onPress={() =>
+              this.props.navigation.navigate(navigationStrings.HOME)
+            }
           >
             <Entypo name="cross" size={30} />
           </TouchableOpacity>
 
-          <Text style={styles.text_search}>{strings.SEARCH}</Text>
+          <Text style={styles.text_search}>{strings.SEARCH_ONLY}</Text>
 
           <AntDesign name="hearto" size={25} />
         </View>
 
-        <View style={{ flex: 1 }}>
+        <View style={styles.flexOne}>
           <View style={styles.top_portion}>
-            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            <View style={styles.searchContainer}>
               <View style={styles.textInput}>
                 <EvilIcons
                   name="search"
                   size={25}
-                  color="#9c9e9f"
+                  color={colors.lightgrey}
                   style={styles.iconSpacing}
                 />
                 <TextInput
@@ -254,35 +213,3 @@ export default class Search extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  textInput: {
-    flexDirection: "row",
-    backgroundColor: "white",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    marginVertical: 20,
-    width: 200,
-    maxHeight: 50,
-    borderRadius: 6,
-    paddingHorizontal: 10,
-  },
-  inputField: {
-    padding: 8,
-  },
-  safeareaview: { flex: 1, backgroundColor: colors.white },
-  navbar: {
-    minHeight: 60,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
-  },
-  text_search: { marginRight: 200, fontWeight: "bold" },
-  top_portion: {
-    flex: 0.3,
-    flexDirection: "column",
-    backgroundColor: colors.backgroundColor,
-    justifyContent: "center",
-  },
-  bottom_portion: { flex: 0.8, backgroundColor: colors.backgroundColor },
-});
