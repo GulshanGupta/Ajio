@@ -77,6 +77,7 @@ export default {
   DEVICE_TOKEN : "123" ,
   SEARCH : "Search by Product, Brand & more..." ,
   USERS : "Users" ,
+  VIDEO : "Video" ,
   OFF : "OFF" ,
   VIEW_DETAILS : "View Details" ,
   CONFIRM_ORDER : "Confirm Order" ,

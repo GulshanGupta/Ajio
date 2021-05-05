@@ -6,3 +6,4 @@ export const transparentProductImage =
 
 export const logoUrl =
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA2dTsrSi8QOB6WogkB1Nb2KLn1YfD0otA5Q&usqp=CAU';
+

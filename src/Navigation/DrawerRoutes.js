@@ -1,7 +1,7 @@
-import React from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import { Messenger } from '../Screen';
-import navigationStrings from '../constants/navigationStrings';
+import React from "react";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Messenger, VideoScreen } from "../Screen";
+import navigationStrings from "../constants/navigationStrings";
 
 const Drawer = createDrawerNavigator();
 
@@ -32,7 +32,13 @@ export default function DrawerRoutes() {
       <Drawer.Screen
         name={navigationStrings.MESSENGER}
         component={Messenger}
-        options={{drawerLabel: 'Messenger'}}
+        options={{ drawerLabel: "Messenger" }}
+      />
+
+      <Drawer.Screen
+        name={navigationStrings.VIDEO}
+        component={VideoScreen}
+        options={{ drawerLabel: "Video" }}
       />
     </Drawer.Navigator>
   );

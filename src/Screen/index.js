@@ -10,4 +10,5 @@ export {default as Search} from "./Search/Search"
 
 
 export {default as Messenger} from "./Messenger/Messenger"
+export {default as VideoScreen} from "./VideoScreen/VideoScreen"
 export {default as Chat} from "./Chat/Chat"

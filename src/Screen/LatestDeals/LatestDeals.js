@@ -78,7 +78,7 @@ class LatestDeals extends Component {
   makeRequest = (onEndReachCall = false) => {
     const { skip, userSearchData, isListEnd } = this.state;
 
-    let calcSkip = onEndReachCall ? skip + userSearchData.length : 0;
+    let calcSkip = onEndReachCall ?userSearchData.length : 0;
 
     let dataSend = {
       searchType: "LEADERBOARD",

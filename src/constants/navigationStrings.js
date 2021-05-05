@@ -18,6 +18,7 @@ export default {
     SEARCH: "Search" ,
     CART : "Cart" ,
     PROFILE : "Profile" ,
+    VIDEO : "video"
     
 
     
